@@ -118,8 +118,10 @@ evict.users.<name>.enabled  -   boolean - Enable evicting dotfiles for user <nam
 evict.users.<name>.rootDir  -   string  - Root folder for your user. Default `/users/<name>`
 evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
 evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
-evict.users.<name>.bashLoginRehome  -   boolean- Resets your home directory to 
+evict.users.<name>.bashLoginRehome  -   boolean- Sets your HOME directory to `$rootDir/$homeDir` after login if you are using a bash shell on login
+evict.users.<name>.zshLoginRehome  -   boolean- Sets your HOME directory to `$rootDir/$homeDir` after login if you are using a zsh shell on login
 
+# GDM/SDDM/Different desktop envrionments are planned but not yet implemented.
 ```
 
 ## Limitations
