@@ -113,7 +113,7 @@ evict.users.tom = {
 ## Available options
 
 ```nix
-evict.users.<name>.enabled  -   boolean - Enable evicting dotfiles for user <name>
+evict.users.<name>.enable  -   boolean - Enable evicting dotfiles for user <name>
 evict.users.<name>.rootDir  -   string  - Root directory for your user. Default `/users/<name>`
 evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
 evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
