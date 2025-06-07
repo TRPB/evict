@@ -95,7 +95,7 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 
 2. Enable evict for your user somewhere in your nix config:
 
-```
+```nix
 evict.users.tom = {
     enable = true;
     
@@ -112,8 +112,7 @@ evict.users.tom = {
 
 ## Available options
 
-``` 
-
+```nix
 evict.users.<name>.enabled  -   boolean - Enable evicting dotfiles for user <name>
 evict.users.<name>.rootDir  -   string  - Root folder for your user. Default `/users/<name>`
 evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
