@@ -40,7 +40,7 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 
 ## Why?
 
-1. Dotfiles are messy. Backing up the entire home folder can end up backing up 120gb of games that happen to be in `~/.local/share/Steam`, gigabytes of emails from the `.thunderbird` directory or `.cache` that I really don't care about. If your UI has hidden files enabled (for some reason my GTK open dialog often seems to default to this) you have to scroll through dozens of dotfiles.
+1. Dotfiles are messy. Backing up the entire home directory can end up backing up 120gb of games that happen to be in `~/.local/share/Steam`, gigabytes of emails from the `.thunderbird` directory or `.cache` that I really don't care about. If your UI has hidden files enabled (for some reason my GTK open dialog often seems to default to this) you have to scroll through dozens of dotfiles.
 
 
 2. On NixOS these are all generated from the NixOS configuration. I don't ever need to look at, edit or back up the files. I'm using impermenance, they are a bunch of symlinks that get destroyed and recreated every boot, I don't need to know they exist at all.
@@ -114,7 +114,7 @@ evict.users.tom = {
 
 ```nix
 evict.users.<name>.enabled  -   boolean - Enable evicting dotfiles for user <name>
-evict.users.<name>.rootDir  -   string  - Root folder for your user. Default `/users/<name>`
+evict.users.<name>.rootDir  -   string  - Root directory for your user. Default `/users/<name>`
 evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
 evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
 evict.users.<name>.bashLoginRehome  -   boolean- Sets your HOME directory to `$rootDir/$homeDir` after login if you are using a bash shell on login
