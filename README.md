@@ -35,12 +35,12 @@ Into a separation of the files you actually created on your computer from the on
         - .mozilla/       
 ```
 
-When you open programs, terminals etc, it will default 
+When you open programs, terminals etc, it will default to the `/users/tom/home` directory 
 
 
 ## Why?
 
-1. Dotfiles are messy. Backing up the entire home folder can end up backing up 120gb of games that happen to be in `~/.local/share/Steam` or gigabytes of emails from the `.thunderbird` directory or `.cache` that I really don't care about. If your UI has hidden files enabled (for some reason my GTK open dialog often seems to default to this) you have to scroll through dozens of dotfiles.
+1. Dotfiles are messy. Backing up the entire home folder can end up backing up 120gb of games that happen to be in `~/.local/share/Steam`, gigabytes of emails from the `.thunderbird` directory or `.cache` that I really don't care about. If your UI has hidden files enabled (for some reason my GTK open dialog often seems to default to this) you have to scroll through dozens of dotfiles.
 
 
 2. On NixOS these are all generated from the NixOS configuration. I don't ever need to look at, edit or back up the files. I'm using impermenance, they are a bunch of symlinks that get destroyed and recreated every boot, I don't need to know they exist at all.
@@ -68,7 +68,7 @@ When you open programs, terminals etc, it will default
         inputs.nixpkgs.follows = "nixpkgs";
     };
     evict = {
-        url = "github:trpb/nixos-evict";
+        url = "github:trpb/evict";
         inputs.nixpkgs.follows = "nixpkgs";
     };
   };
