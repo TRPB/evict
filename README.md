@@ -135,3 +135,16 @@ The plan is to provide pre-rehomed packages (POC example for Steam and Firefox i
 Take a look at my initial implementation and some discussion on the topic: https://r.je/evict-your-darlings
 
 
+## Known issues
+
+1. home-manager sometimes complains that HOME is not what is expected
+
+Workrounds (pick one):
+
+1. Reboot (sometimes just works)
+2. Create a new user and use that going forward
+3. Remove all dotfiles and rebuild/reboot 
+
+Issue tracking: https://github.com/TRPB/evict/issues/1
+
+
