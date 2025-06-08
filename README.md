@@ -96,16 +96,7 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 2. Enable evict for your user somewhere in your nix config:
 
 ```nix
-evict.users.tom = {
-    enable = true;
-    
-    # Pick one depending on your login shell
-    # Only text based login shells are currently supported
-    # PR for sddm/gdm/etc are welcome
-    bashLoginRehome = true;
-    # OR
-    zshLoginRehome = true;
-};
+evict.users.tom.enable = true;
 ```
 
 3. Log out and back in
@@ -117,21 +108,19 @@ evict.users.<name>.enable  -   boolean - Enable evicting dotfiles for user <name
 evict.users.<name>.rootDir  -   string  - Root directory for your user. Default `/users/<name>`
 evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
 evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
-evict.users.<name>.bashLoginRehome  -   boolean- Sets your HOME directory to `$rootDir/$homeDir` after login if you are using a bash shell on login
-evict.users.<name>.zshLoginRehome  -   boolean- Sets your HOME directory to `$rootDir/$homeDir` after login if you are using a zsh shell on login
-
-# GDM/SDDM/Different desktop envrionments are planned but not yet implemented.
 ```
 
 ## Limitations
 
-1. If you are using a graphical display manager e.g. gdm or sddm you will need to work out how to update `$HOME` to `$rootDir/$homeDir` inside the session. This may be done inside the desktop environment itself or display manager.
+1. Although `HOME` should be set via systemd for display managers you may need to update `HOME` within your desktop environment directly.
 
 e.g. in hyprland you can add 
 
 ```
 env=HOME,/users/tom/home
 ```
+
+This can be done either at the display manager or desktop environment level
 
 Please create an issue with your display manager or desktop environement and how this is done and I'll and an option to automate it :) I don't have the resources to go through every possible combination myself and determine how to apply it but I'll update the code with an option for your DE if you tell me how the variable needs to be set.
 

@@ -36,19 +36,6 @@ let
           default = "config";
           description = "Name of /config directory created inside the root dir";
         };
-
-        bashLoginRehome = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Enable rehome for a bash terminal based login";
-        };
-
-        zshLoginRehome = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Enable rehome for a zsh terminal based login";
-        };
-
       };
     }
   );
