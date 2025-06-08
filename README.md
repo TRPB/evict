@@ -110,6 +110,13 @@ evict.users.<name>.homeDirName  -   string  - Home directory name, default `home
 evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
 ```
 
+## FAQ
+
+#### Q. Does my terminal and open/save dialogs default to the new home directory `/users/<name>/home`.
+
+A. Yes. But please see limitations section below, you may need to manually set `HOME` for your desktop environment 
+
+
 ## Limitations
 
 1. Although `HOME` should be set via systemd for display managers you may need to update `HOME` within your desktop environment directly.
