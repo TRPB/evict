@@ -11,11 +11,28 @@ let
     )
   );
 
+  # Bash can be bash or bash-interactive can't use pname directly
+  # currently only bash and zsh login shells supported
+  # If you are using fish it is better to `exec fish` is bashrc anyway. see https://nixos.wiki/wiki/Fish
+  shellName =
+    packageName:
+    if lib.strings.hasPrefix "bash" packageName then
+      "bash"
+    else if lib.strings.hasPrefix "zsh" packageName then
+      "zsh"
+    else
+      "bash";
+
+  packageName = user: config.users.users.${user.name}.shell.pname;
+
   createHomeManagerConfig = user: {
-    users."${user.name}" = lib.mkMerge [
+    users.${user.name} = lib.mkMerge [
       (import ./config/xdg.nix { user = user; })
-      (lib.mkIf (user.bashLoginRehome) (import ./config/bash.nix { user = user; }))
-      (lib.mkIf (user.zshLoginRehome) (import ./config/zsh.nix { user = user; }))
+      (import ./config/home.nix { user = user; })
+      (lib.mkIf (builtins.elem (shellName (packageName user)) [
+        "bash"
+        "zsh"
+      ]) (import ./config/bash-zsh.nix { shellName = (shellName (packageName user)); }))
     ];
   };
 
