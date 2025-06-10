@@ -133,8 +133,8 @@ Pull requests are welcome for new automatic configurations!
 
 ```nix
 home-managers.users.<name>.home.evict.enable  -   boolean - Enable evicting dotfiles for user <name>
-home-managers.users.<name>.home.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
-home-managers.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
+home-managers.users.<name>.home.evict.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
+home-managers.users.<name>.home.evict.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
 ```
 
 
