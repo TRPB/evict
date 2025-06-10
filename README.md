@@ -47,7 +47,6 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 
 ## Requirements
 
-- NixOS 
 - Home Manager
 
 ## Usage
@@ -85,7 +84,7 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
       nixosConfigurations.yourSystem = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          evict.nixosModules.evict
+          evict.homeManagerModules.evict
           ./configuration.nix
         ];
       };
@@ -93,10 +92,35 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 }
 ```
 
+This adds the `home.evict` option.
+
 2. Enable evict for your user somewhere in your nix config:
 
 ```nix
-evict.users.tom.enable = true;
+home-manager.users.<name>.home.evict = true;
+```
+On its own this will split config and your files into, for example:
+
+```
+/home/<name>/home 
+/home/<name>/config
+```
+
+and default your home directory to `/home/<name>/home`
+
+2a. If you don't want `/home/x/home' and want `/users/x/home`:
+
+- On NixOS 25.11 (unstable), set the default home directory:
+
+```nix
+users.defaultUserHome = "/users";
+```
+
+- On earlier versions, you can set it per user:
+
+```nix
+user.users.alice.home = "/users/alice";
+user.users.bob.home = "/users/bob";
 ```
 
 3. Log out and back in

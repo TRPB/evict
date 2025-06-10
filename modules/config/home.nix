@@ -1,5 +1,5 @@
-{ user, ... }:
+{ rootDirectory, homeDirName, ... }:
 {
-  home.sessionVariables.HOME = "${user.rootDir}/${user.homeDirName}";
-  systemd.user.sessionVariables.HOME = "${user.rootDir}/${user.homeDirName}";
+  home.sessionVariables.HOME = "${rootDirectory}/${homeDirName}";
+  # systemd.user.sessionVariables.HOME = "${rootDirectory}/${homeDirName}";
 }

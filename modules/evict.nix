@@ -28,11 +28,13 @@ let
   createHomeManagerConfig = user: {
     users.${user.name} = lib.mkMerge [
       (import ./config/xdg.nix { user = user; })
-      (import ./config/home.nix { user = user; })
       (lib.mkIf (builtins.elem (shellName (packageName user)) [
         "bash"
         "zsh"
       ]) (import ./config/bash-zsh.nix { shellName = (shellName (packageName user)); }))
+      {
+        home.homeDirectory = lib.mkForce user.rootDir;
+      }
     ];
   };
 
@@ -61,7 +63,6 @@ let
 in
 {
   imports = [ ./options.nix ];
-
   config.home-manager = lib.mkMerge homeManagerConfig;
   config.systemd = lib.mkMerge systemdConfig;
   config.users = lib.mkMerge userConfig;
