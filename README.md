@@ -53,7 +53,7 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 
 ### This should be considered somewhat experimental. I have been running this config for over a year without issue but ymmv. It is highly recommended to create a new user for testing before switching your primary user account.
 
-1. Import the module into your flake.nix:
+### 1. Import the module into your flake.nix:
 
 ```nix
 {
@@ -84,7 +84,6 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
       nixosConfigurations.yourSystem = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          evict.homeManagerModules.evict
           ./configuration.nix
         ];
       };
@@ -92,12 +91,24 @@ When you open programs, terminals etc, it will default to the `/users/tom/home` 
 }
 ```
 
-This adds the `home.evict` option.
 
-2. Enable evict for your user somewhere in your nix config:
+### 2. Import the module and enable evict
+
+Then in `configuration.nix` (or another loaded module), import the module and enable evict for your user somewhere in your nix config:
+
+`configuration.nix`
 
 ```nix
-home-manager.users.<name>.home.evict = true;
+{ inputs, ... }:
+{
+    home-manager.users.<name> = {
+        imports = [
+            inputs.evictHm.homeManagerModules.evict
+        ];
+
+        home.evict.enable = true;
+    };
+};
 ```
 On its own this will split config and your files into, for example:
 
@@ -108,13 +119,21 @@ On its own this will split config and your files into, for example:
 
 and default your home directory to `/home/<name>/home`
 
-2a. If you don't want `/home/x/home' and want `/users/x/home` or similar, set the default user home directory:
+### 2a. If you want /users/foo/home instead of /home/foo/home 
+
+If you don't want `/home/x/home' and want `/users/x/home` or similar, set the default user home directory:
 
 ```nix
 users.defaultUserHome = "/users";
 ```
 
-3. After login, you need to set the environment variable `HOME=/users/name/home` inside your desktop environment/login shell.
+**PLEASE BE CAREFUL WHEN DOING THIS**
+
+You may need to manually move your files from the old location to the new one if you do this, depending on your system configuration.
+
+### 3. Set the HOME variable
+
+After login, you need to set the environment variable `HOME=/users/name/home` inside your desktop environment/login shell.
 
 Currently this is done automatically when:
 
@@ -127,7 +146,9 @@ In any other case you will need to look up how to set the `HOME` variable within
 Pull requests are welcome for new automatic configurations!
 
 
-3. Log out and back in
+### 3. Log out and back in
+
+Log out and back in, probably your important files are missing from `~`, cut/paste them from `~/../whatever` to `~`.
 
 ## Available options
 
