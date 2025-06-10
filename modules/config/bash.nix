@@ -1,7 +1,9 @@
-{ newHome, ... }:
+{ rootDirectory, newHome, ... }:
 {
   programs.bash.initExtra = ''
     HOME=${newHome}
-    cd ~
+    if [[ `pwd` == "${rootDirectory}" ]]; then
+        cd ~
+      fi
   '';
 }

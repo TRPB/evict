@@ -19,8 +19,8 @@ in
       })
       (lib.mkIf (config.programs.bash.enable) (
         import ./config/bash.nix {
+          rootDirectory = config.home.homeDirectory;
           newHome = newHome;
-          shellName = "bash";
         }
       ))
       (lib.mkIf (config.programs.zsh.enable) (

@@ -10,7 +10,9 @@
     '';
     initContent = ''
       export HOME="${rootDirectory}/${user.homeDirName}"
-      cd ~
+      if [[ `pwd` == "${rootDirectory}" ]]; then
+        cd ~
+      fi
     '';
   };
 }
