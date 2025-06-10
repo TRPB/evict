@@ -103,7 +103,7 @@ Then in `configuration.nix` (or another loaded module), import the module and en
 {
     home-manager.users.<name> = {
         imports = [
-            inputs.evictHm.homeManagerModules.evict
+            inputs.evict.homeManagerModules.evict
         ];
 
         home.evict.enable = true;
