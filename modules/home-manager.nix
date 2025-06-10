@@ -6,24 +6,34 @@
 }:
 let
   user = config.home.evict;
+  newHome = config.home.homeDirectory + "/" + user.homeDirName;
 in
 {
-  imports = [ ./options-home-manager.nix ];
+  imports = [ ./options.nix ];
 
   config = (lib.mkIf user.enable) (
     lib.mkMerge [
-      (import ./config/xdg.nix { config = config; })
-      (import ./config/home.nix {
-        rootDirectory = config.home.homeDirectory;
-        homeDirName = user.homeDirName;
-      })
-      (lib.mkIf (config.programs.bash.enable) (import ./config/bash-zsh.nix { shellName = "bash"; }))
-      (lib.mkIf (config.programs.zsh.enable) (import ./config/bash-zsh.nix { shellName = "zsh"; }))
-      (import ./config/create-home.nix {
+      (import ./config/xdg.nix {
         config = config;
-        pkgs = pkgs;
-        homeDir = user.homeDirName;
+        lib = lib;
       })
+      (lib.mkIf (config.programs.bash.enable) (
+        import ./config/bash.nix {
+          newHome = newHome;
+          shellName = "bash";
+        }
+      ))
+      (lib.mkIf (config.programs.zsh.enable) (
+        import ./config/zsh.nix {
+          rootDirectory = config.home.homeDirectory;
+          user = user;
+        }
+      ))
+      (lib.mkIf (config.wayland.windowManager.hyprland.enable) (
+        import ./config/hyprland.nix {
+          newHome = newHome;
+        }
+      ))
     ]
   );
 }

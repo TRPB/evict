@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   xdg = {
     enable = true;
@@ -6,11 +6,21 @@
     cacheHome = "${config.home.homeDirectory}/${config.home.evict.configDirName}/cache";
     dataHome = "${config.home.homeDirectory}/${config.home.evict.configDirName}/local/share";
     stateHome = "${config.home.homeDirectory}/${config.home.evict.configDirName}/local/state";
-    # And this doesn't create the home directory either
+
     userDirs = {
       enable = true;
+      createDirectories = true;
+      videos = null;
+      templates = null;
+      publicShare = null;
+      pictures = null;
+      music = null;
+      download = null;
+      documents = null;
+      desktop = null;
+
       extraConfig = {
-        XDG_REHOME = "${config.home.homeDirectory}/home";
+        XDG_REHOME = "${config.home.homeDirectory}/${config.home.evict.homeDirName}";
       };
     };
   };

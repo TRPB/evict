@@ -22,7 +22,7 @@ Convert the standard file structure:
 Into a separation of the files you actually created on your computer from the ones you didn't e.g. with the default settings:
 
 ```
-/users/tom
+/users/tom/
     - home/
         - Documents/
         - Music/
@@ -108,31 +108,35 @@ On its own this will split config and your files into, for example:
 
 and default your home directory to `/home/<name>/home`
 
-2a. If you don't want `/home/x/home' and want `/users/x/home`:
-
-- On NixOS 25.11 (unstable), set the default home directory:
+2a. If you don't want `/home/x/home' and want `/users/x/home` or similar, set the default user home directory:
 
 ```nix
 users.defaultUserHome = "/users";
 ```
 
-- On earlier versions, you can set it per user:
+3. After login, you need to set the environment variable `HOME=/users/name/home` inside your desktop environment/login shell.
 
-```nix
-user.users.alice.home = "/users/alice";
-user.users.bob.home = "/users/bob";
-```
+Currently this is done automatically when:
+
+- You log in via TTY/SSH and start a bash/zsh interactive shell. Requires `home-manager.users.<name>.programs.bash.enable` or `home-manager.users.<name>.programs.zsh.enable` depending on your login shell. This can then still automatically launch a desktop environment via `.bashrc` or equivalent.
+
+- Hyprland when `home-manager.users.<name>.wayland.windowManager.hyprland.enable` is set, regardless of how it is launched
+
+In any other case you will need to look up how to set the `HOME` variable within your desktop environment and set it to `"${config.home-manager.users.<name>.homeDirectory}/${config.home-manager.users.<name>.homeDirectoryName}"` or the hardcoded path to your new reorganised home directory e.g. `/users/tom/home`.
+
+Pull requests are welcome for new automatic configurations!
+
 
 3. Log out and back in
 
 ## Available options
 
 ```nix
-evict.users.<name>.enable  -   boolean - Enable evicting dotfiles for user <name>
-evict.users.<name>.rootDir  -   string  - Root directory for your user. Default `/users/<name>`
-evict.users.<name>.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
-evict.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
+home-managers.users.<name>.home.evict.enable  -   boolean - Enable evicting dotfiles for user <name>
+home-managers.users.<name>.home.homeDirName  -   string  - Home directory name, default `home`. Will be placed inside $rootDir
+home-managers.users.<name>.configDirName  -   string  - Config directory name, default `config`. Will be placed inside $rootdir
 ```
+
 
 ## FAQ
 
@@ -143,17 +147,7 @@ A. Yes. But please see limitations section below, you may need to manually set `
 
 ## Limitations
 
-1. Although `HOME` should be set via systemd for display managers you may need to update `HOME` within your desktop environment directly.
-
-e.g. in hyprland you can add 
-
-```
-env=HOME,/users/tom/home
-```
-
-This can be done either at the display manager or desktop environment level
-
-Please create an issue with your display manager or desktop environement and how this is done and I'll and an option to automate it :) I don't have the resources to go through every possible combination myself and determine how to apply it but I'll update the code with an option for your DE if you tell me how the variable needs to be set.
+1. You will probably need to manually set HOME inside your desktop environment (see above). This can be done either at the display manager or desktop environment level
 
 2. Some packages do not respect XDG paths (the .config directory), these need to be handled on a case by case basis.
 
@@ -161,10 +155,11 @@ The plan is to provide pre-rehomed packages (POC example for Steam and Firefox i
 
 3. Some applications which run before login will write to the root directory (e.g. `/users/tom` instead of being banished to `/users/tom/config`). This may be addressed in future but the primary goal is to keep the files you purposely chose to create isolated from the rest so it's not a huge problem as you'll rarely if ever encounter them.
 
+4. If you use XDG to create directories inside `home` e.g. `Downloads`, `Music`, etc, you will need to specify the new path using `home-manager.users.<name>.xdg.userDirs.downloads = "/users/<name>/home/Downloads"` or similar.
+
 ## Further reading
 
 Take a look at my initial implementation and some discussion on the topic: https://r.je/evict-your-darlings
-
 
 ## Known issues
 
